@@ -1,10 +1,14 @@
 package com.retotecnico.ApiBackend.controller;
 
 import com.retotecnico.ApiBackend.entity.Persona;
+import com.retotecnico.ApiBackend.model.ErrorModel;
 import com.retotecnico.ApiBackend.service.PersonaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +21,7 @@ public class PersonaController {
     protected PersonaService personaService;
 
     @PostMapping("/save")
-    public Persona save(@RequestBody Persona persona){
+    public Persona save(@Valid @RequestBody Persona persona){
         return personaService.save(persona);
     }
 
@@ -51,4 +55,14 @@ public class PersonaController {
         personaService.deletePersona(id);
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorModel> handleValidationException(MethodArgumentNotValidException ex) {
+        FieldError fieldError = ex.getBindingResult().getFieldError();
+        ErrorModel errorModel = new ErrorModel();
+        errorModel.setErrorCode("E001");
+        errorModel.setErrorType("Campos Obligatorios");
+        assert fieldError != null;
+        errorModel.setErrorDescription(fieldError.getDefaultMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorModel);
+    }
 }
