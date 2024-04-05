@@ -4,6 +4,7 @@ import com.retotecnico.ApiBackend.entity.Persona;
 import com.retotecnico.ApiBackend.model.ErrorModel;
 import com.retotecnico.ApiBackend.service.PersonaService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,16 +13,17 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@Slf4j
 @RestController
 @RequestMapping("/api-persona")
 public class PersonaController {
-
     @Autowired
     protected PersonaService personaService;
 
     @PostMapping("/save")
     public Persona save(@Valid @RequestBody Persona persona){
+        log.error("TEST de error");
+        log.info("Test de info");
         return personaService.save(persona);
     }
 
