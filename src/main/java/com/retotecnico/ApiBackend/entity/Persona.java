@@ -2,13 +2,11 @@ package com.retotecnico.ApiBackend.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 @Entity
 @Table(name = "personas")
-@Setter
-@Getter
+@Data
 public class Persona {
 
     @Id
