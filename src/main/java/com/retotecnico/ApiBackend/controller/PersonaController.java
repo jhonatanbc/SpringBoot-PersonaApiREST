@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @Slf4j
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api-persona")
 public class PersonaController {
 
@@ -84,13 +85,13 @@ public class PersonaController {
         personaService.truncateTable();
     }
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteById(@PathVariable("id") Integer id){
+    public void deleteById(@PathVariable("id") Integer id){
         Persona persona = personaService.findById(id);
         if (persona != null){
             personaService.deletePersona(id);
-            return ResponseEntity.ok("Registro eliminado: "+persona.getNombres());
+//            return ResponseEntity.ok("Registro eliminado: "+persona.getNombres());
         }
-        else return new ResponseEntity<>("Persona no registrada",HttpStatus.NOT_FOUND);
+//        else return new ResponseEntity<>("Persona no registrada",HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
